@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded',  function init()
+window.addEventListener('DOMContentLoaded',  function ()
 {
     'use strict';
     var game = new GF();

@@ -12,7 +12,8 @@ Sprite.prototype.update = function ()
     
 }
 
-Sprite.prototype.draw = function ()
+Sprite.prototype.draw = function (ctx)
 {
-    
+    ctx.save();
+    ctx.restore();
 }

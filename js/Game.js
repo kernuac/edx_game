@@ -46,11 +46,10 @@ var GF = function ()
         fpsContainer = document.createElement('div');
         document.body.appendChild(fpsContainer);
         
-        var player = new Character();
+        var player = new Character("player 1");
         var sprite = new Sprite();
         sprite.update();
-        //Character.update();
-        //Character.draw();
+        player.update();
         requestAnimationFrame(mainLoop);
     };
 
