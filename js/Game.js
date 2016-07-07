@@ -1,20 +1,15 @@
-window.addEventListener('DOMContentLoaded',  function init()
-{
-    var game = new GF();
-    game.start();
-});
-
 var GF = function ()
 {
+    'use strict';
     var frameCount = 0;
     var lastTime;
     var fpsContainer;
     var fps;
-    var viewport;
-    var ctx;
-    var w;
-    var h;
-
+    var viewport = document.querySelector("#viewport");
+    var ctx = viewport.getContext("2d");
+    var w = 400;
+    var h = 320;
+    
     var measureFPS = function(newTime)
     {
         var diffTime;
@@ -45,8 +40,17 @@ var GF = function ()
 
     var start = function()
     {
+        viewport.width = w;
+        viewport.height = h;
+        viewport.style.border = "1px solid black";
         fpsContainer = document.createElement('div');
         document.body.appendChild(fpsContainer);
+        
+        var player = new Character();
+        var sprite = new Sprite();
+        sprite.update();
+        //Character.update();
+        //Character.draw();
         requestAnimationFrame(mainLoop);
     };
 
