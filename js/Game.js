@@ -5,11 +5,29 @@ var GF = function ()
     var lastTime;
     var fpsContainer;
     var fps;
+
     var viewport = document.querySelector("#viewport");
     var ctx = viewport.getContext("2d");
+    
     var w = 400;
     var h = 320;
     
+    var inputStates = {};
+    
+    var gameStates = {
+        mainMenu: 0,
+        gameRunning: 1,
+        gamePaused: 2,
+        gameOver: 3
+    }
+    
+    var currentGameState = gameStates.gameRunning;
+    
+    var player = new Character("player 1");
+    function clearCanvas()
+    {
+        ctx.clearRect(0,0,w,h);
+    }
     var measureFPS = function(newTime)
     {
         var diffTime;
@@ -35,9 +53,25 @@ var GF = function ()
     var mainLoop = function(time)
     {
         measureFPS(time);
+        
+        clearCanvas();
+        
+        switch(currentGameState)
+        {
+            case gameStates.gameRunning:
+                player.draw(ctx);
+                break;
+            case gameStates.mainMenu:
+                break;
+            case gameSates.GameOver:
+                break;
+        }
         requestAnimationFrame(mainLoop);
     };
-
+    var createEnemies = function ()
+    {
+        
+    }
     var start = function()
     {
         viewport.width = w;
@@ -46,10 +80,9 @@ var GF = function ()
         fpsContainer = document.createElement('div');
         document.body.appendChild(fpsContainer);
         
-        var player = new Character("player 1");
+
         var sprite = new Sprite();
-        sprite.update();
-        player.update();
+        var enemies = {};
         requestAnimationFrame(mainLoop);
     };
 
