@@ -95,3 +95,40 @@ Enemy.prototype.moveToTarget = function(timer)
         this.isInTarget = true;
     }
 }
+
+Enemy.prototype.fire = function ()
+{
+    var fire = false;
+    if(Math.random()*100 > 40)
+    {
+        fire = true;
+    }
+    return fire;
+}
+
+function Fire(dir)
+{
+    this.speed = 3;
+    this.dir = dir;
+    this.direction = {
+        up: 1,
+        right: 2,
+        down: 3,
+        left: 4
+    };
+}
+
+Fire.prototype = new Sprite();
+Fire.prototype.constructor = Fire;
+
+Fire.prototype.update = function(timer)
+{
+    if(this.dir == this.direction.left)
+    {
+        this.x -= this.speed * timer;
+    }
+    else if(this.dir == this.direction.right)
+    {
+        this.x += this.speed * timer;
+    }
+}

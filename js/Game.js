@@ -29,7 +29,9 @@ var GF = function ()
     var currentGameState = gameStates.gameRunning;
     
     var player;
+    var playerFire;
     var enemies;
+    var enemiesFire;
     
     function clearCanvas()
     {
@@ -76,6 +78,7 @@ var GF = function ()
                     ctx.restore();
                     createEnemies(tick);
                     updateEnemies(tick);
+                    updateFire(tick);
                     drawEnemies();
                     cwv = collider.collideWithViewport(player, viewport);
                     player.update(tick, input.keys, cwv);
@@ -113,8 +116,8 @@ var GF = function ()
     var createEnemies = function (tick)
     {
         //console.log(tick);
-        console.log(enemies.length);
-        if(tick>30 && enemies.length<10)
+        //console.log(enemies.length);
+        if(tick > 30 * Math.random()*25 && enemies.length<10)
         {
             enemies.push(new Enemy(viewport.width-20,viewport.height*Math.random(),0.5,1,"green"))
         }
@@ -122,19 +125,37 @@ var GF = function ()
     
     var updateEnemies = function(tick)
     {
-        for(var i = enemies.length;i--;)
+        if(enemies.length>0)
         {
-            if(enemies[i].collideWithViewport)
+            for(var i = enemies.length;i--;)
             {
-                enemies.splice(i);
-            }
-            else
-            {
-                enemies[i].update(tick);
+                var collide = collider.collideWithViewport(enemies[i], viewport);
+                if(collide.left)
+                {
+                    enemies.splice(i,1);
+                //console.log(enemies.length);
+                }
+                else
+                {
+                    if(enemies[i].fire())
+                    {
+                        enemiesFire.push(new Fire(4));
+                        //console.log(enemiesFire.length);
+                    }
+                    enemies[i].update(tick);
+                }
             }
         }
     }
     
+    var updateFire = function (tick)
+    {
+        for(var i = enemiesFire.length; i--;)
+        {
+            enemiesFire[i].update(tick);
+            enemiesFire[i].draw(ctx);
+        }
+    }
     var drawEnemies = function ()
     {
         for(var i = enemies.length; i--;)
@@ -164,6 +185,8 @@ var GF = function ()
             new Enemy(viewport.width-20,viewport.height*Math.random(),0.5,1,"green"),
             new Enemy(viewport.width-20,viewport.height*Math.random(),0.8,3,"red")
         ];
+        enemiesFire = [];
+        playerFire = [];
         requestAnimationFrame(mainLoop);
     };
 
