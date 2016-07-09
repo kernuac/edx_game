@@ -7,7 +7,7 @@ function Sprite()
     this.color = "#87eb99";
 }
 
-Sprite.prototype.update = function (timer, inputEvents)
+Sprite.prototype.update = function (timer)
 {
     
 }
@@ -20,7 +20,7 @@ Sprite.prototype.draw = function (ctx)
     ctx.strokeStyle=this.color;
     ctx.moveTo(this.x,this.y);
     ctx.lineTo(this.x+16,this.y+8);
-    ctx.lineTo(this.x-16,this.y+16);
+    ctx.lineTo(this.x,this.y+16);
     ctx.fill();
     ctx.stroke();
     ctx.restore();

@@ -4,6 +4,7 @@ var GF = function ()
     var frameCount = 0;
     var lastTime;
     var fpsContainer;
+    var keysContainer;
     var fps;
 
     var viewport = document.querySelector("#viewport");
@@ -12,7 +13,7 @@ var GF = function ()
     var w = 400;
     var h = 320;
     
-    var inputStates = {};
+    var input;
     
     var gameStates = {
         mainMenu: 0,
@@ -23,7 +24,9 @@ var GF = function ()
     
     var currentGameState = gameStates.gameRunning;
     
-    var player = new Character("player 1");
+    var player = new Character("player 1", "black");
+    var enemies = {};
+    
     function clearCanvas()
     {
         ctx.clearRect(0,0,w,h);
@@ -59,6 +62,12 @@ var GF = function ()
         switch(currentGameState)
         {
             case gameStates.gameRunning:
+                ctx.save();
+                ctx.font='8px LVDCGO';
+                ctx.fillText('Lives: '+player.life,20,15);
+                ctx.fillText('Score: '+player.score,250,15)
+                ctx.restore();
+                player.update(time, input.keys);
                 player.draw(ctx);
                 break;
             case gameStates.mainMenu:
@@ -77,12 +86,14 @@ var GF = function ()
         viewport.width = w;
         viewport.height = h;
         viewport.style.border = "1px solid black";
+        
         fpsContainer = document.createElement('div');
         document.body.appendChild(fpsContainer);
+        keysContainer = document.createElement('div');
+        document.body.appendChild(keysContainer);
         
-
-        var sprite = new Sprite();
-        var enemies = {};
+        input = new Input();
+        input.init();
         requestAnimationFrame(mainLoop);
     };
 
