@@ -19,8 +19,8 @@ Sprite.prototype.draw = function (ctx)
     ctx.fillStyle=this.color;
     ctx.strokeStyle=this.color;
     ctx.moveTo(this.x,this.y);
-    ctx.lineTo(this.x+16,this.y+8);
-    ctx.lineTo(this.x,this.y+16);
+    ctx.lineTo(this.x+this.w,this.y+this.w/2);
+    ctx.lineTo(this.x,this.y+this.w);
     ctx.fill();
     ctx.stroke();
     ctx.restore();

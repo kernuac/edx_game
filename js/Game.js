@@ -8,12 +8,16 @@ var GF = function ()
     var fps;
 
     var viewport = document.querySelector("#viewport");
+    viewport.x = 0;
+    viewport.y = 0;
     var ctx = viewport.getContext("2d");
     
     var w = 400;
     var h = 320;
     
     var input;
+    var timer;
+    var collider;
     
     var gameStates = {
         mainMenu: 0,
@@ -24,8 +28,8 @@ var GF = function ()
     
     var currentGameState = gameStates.gameRunning;
     
-    var player = new Character("player 1", "black");
-    var enemies = {};
+    var player;
+    var enemies;
     
     function clearCanvas()
     {
@@ -56,30 +60,87 @@ var GF = function ()
     var mainLoop = function(time)
     {
         measureFPS(time);
-        
+        var tick = timer.dtime();
+        var cwv;
         clearCanvas();
         
         switch(currentGameState)
         {
             case gameStates.gameRunning:
-                ctx.save();
-                ctx.font='8px LVDCGO';
-                ctx.fillText('Lives: '+player.life,20,15);
-                ctx.fillText('Score: '+player.score,250,15)
-                ctx.restore();
-                player.update(time, input.keys);
-                player.draw(ctx);
+                if(player.isAlive)
+                {
+                    ctx.save();
+                    ctx.font='8px LVDCGO';
+                    ctx.fillText('Lives: '+player.life,20,15);
+                    ctx.fillText('Score: '+player.score,250,15)
+                    ctx.restore();
+                    createEnemies(tick);
+                    updateEnemies(tick);
+                    drawEnemies();
+                    cwv = collider.collideWithViewport(player, viewport);
+                    player.update(tick, input.keys, cwv);
+                    if(collider.collideWithGroup(player,enemies))
+                    {
+                        player.life--;
+                        if(player.life == 0)
+                        {
+                            player.isAlive = false;
+                        }
+                        player.x = 20;
+                        player.y = 20;
+                    }
+                    player.draw(ctx);
+                }
+                else
+                {
+                    currentGameState = gameStates.gameOver;
+                }
                 break;
             case gameStates.mainMenu:
                 break;
-            case gameSates.GameOver:
+                
+            case gameStates.gameOver:
+                alert("Game OVER!");
+                //I need reset the game in a better way...
+                //I tried to call start function but it
+                //doesn't work
+                //start();
+                window.location.href="./";
                 break;
         }
         requestAnimationFrame(mainLoop);
     };
-    var createEnemies = function ()
+    var createEnemies = function (tick)
     {
-        
+        //console.log(tick);
+        console.log(enemies.length);
+        if(tick>30 && enemies.length<10)
+        {
+            enemies.push(new Enemy(viewport.width-20,viewport.height*Math.random(),0.5,1,"green"))
+        }
+    }
+    
+    var updateEnemies = function(tick)
+    {
+        for(var i = enemies.length;i--;)
+        {
+            if(enemies[i].collideWithViewport)
+            {
+                enemies.splice(i);
+            }
+            else
+            {
+                enemies[i].update(tick);
+            }
+        }
+    }
+    
+    var drawEnemies = function ()
+    {
+        for(var i = enemies.length; i--;)
+        {
+            enemies[i].draw(ctx);
+        }
     }
     var start = function()
     {
@@ -89,11 +150,20 @@ var GF = function ()
         
         fpsContainer = document.createElement('div');
         document.body.appendChild(fpsContainer);
-        keysContainer = document.createElement('div');
-        document.body.appendChild(keysContainer);
         
         input = new Input();
         input.init();
+        
+        timer = new Timer();
+        timer.init();
+        
+        collider = new Collider();
+        
+        player = new Character("player 1", "black");
+        enemies = [
+            new Enemy(viewport.width-20,viewport.height*Math.random(),0.5,1,"green"),
+            new Enemy(viewport.width-20,viewport.height*Math.random(),0.8,3,"red")
+        ];
         requestAnimationFrame(mainLoop);
     };
 
