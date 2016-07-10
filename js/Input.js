@@ -32,6 +32,9 @@ Input.prototype.init = function ()
             case 40:
                 input.keys.down = true;
                 break;
+            case 32:
+                input.keys.space = true;
+                break;
         };
     });
     document.addEventListener('keyup', function(event)
@@ -53,6 +56,8 @@ Input.prototype.init = function ()
             case 40:
                 input.keys.down = false;
                 break;
+            case 32:
+                input.keys.space = false;
         };
     });
 };

@@ -30,6 +30,8 @@ var GF = function ()
     
     var player;
     var playerFire;
+    var psx;
+    var psy;
     var enemies;
     var enemiesFire;
     
@@ -37,6 +39,7 @@ var GF = function ()
     {
         ctx.clearRect(0,0,w,h);
     }
+    
     var measureFPS = function(newTime)
     {
         var diffTime;
@@ -76,21 +79,23 @@ var GF = function ()
                     ctx.fillText('Lives: '+player.life,20,15);
                     ctx.fillText('Score: '+player.score,250,15)
                     ctx.restore();
-                    createEnemies(tick);
+                    updateEnemiesFire(tick);
+                    updatePlayerFire(tick);
                     updateEnemies(tick);
-                    updateFire(tick);
+                    createEnemies(tick);
                     drawEnemies();
                     cwv = collider.collideWithViewport(player, viewport);
-                    player.update(tick, input.keys, cwv);
-                    if(collider.collideWithGroup(player,enemies))
+                    player.update(tick, input.keys, playerFire,cwv);
+                    if(collider.collideWithGroup(player,enemies)
+                    || collider.collideWithGroup(player,enemiesFire))
                     {
                         player.life--;
                         if(player.life == 0)
                         {
                             player.isAlive = false;
                         }
-                        player.x = 20;
-                        player.y = 20;
+                        player.x = psx;
+                        player.y = psy;
                     }
                     player.draw(ctx);
                 }
@@ -100,26 +105,22 @@ var GF = function ()
                 }
                 break;
             case gameStates.mainMenu:
+                //Not implemented yet
                 break;
                 
             case gameStates.gameOver:
                 alert("Game OVER!");
-                //I need reset the game in a better way...
-                //I tried to call start function but it
-                //doesn't work
-                //start();
-                window.location.href="./";
+                init();
                 break;
         }
         requestAnimationFrame(mainLoop);
     };
     var createEnemies = function (tick)
     {
-        //console.log(tick);
-        //console.log(enemies.length);
-        if(tick > 30 * Math.random()*25 && enemies.length<10)
+
+        if(tick > 30 * Math.random()*25 && enemies.length<5)
         {
-            enemies.push(new Enemy(viewport.width-20,viewport.height*Math.random(),0.5,1,"green"))
+            enemies.push(new Enemy(viewport.width-20,(viewport.height-20)*Math.random(),0.5,1,"green"))
         }
     }
     
@@ -130,17 +131,24 @@ var GF = function ()
             for(var i = enemies.length;i--;)
             {
                 var collide = collider.collideWithViewport(enemies[i], viewport);
+
+                var killed = collider.collideWithGroup(enemies[i], playerFire);
+                
                 if(collide.left)
                 {
                     enemies.splice(i,1);
-                //console.log(enemies.length);
+                }
+                else if(killed)
+                {
+                    enemies.splice(i, 1);
+                    player.score += 10;
                 }
                 else
                 {
-                    if(enemies[i].fire())
+                    if(enemies[i].fire() && enemiesFire.length < 1)
                     {
-                        enemiesFire.push(new Fire(4));
-                        //console.log(enemiesFire.length);
+                        enemiesFire.push(new Fire(enemies[i].x, enemies[i].y+enemies[i].h/2, 4));
+
                     }
                     enemies[i].update(tick);
                 }
@@ -148,14 +156,40 @@ var GF = function ()
         }
     }
     
-    var updateFire = function (tick)
+    var updateEnemiesFire = function (tick)
     {
         for(var i = enemiesFire.length; i--;)
         {
-            enemiesFire[i].update(tick);
-            enemiesFire[i].draw(ctx);
+            var collide = collider.collideWithViewport(enemiesFire[i], viewport);
+            if(collide.left)
+            {
+                enemiesFire.splice(i, 1);
+            }
+            else
+            {
+                enemiesFire[i].update(tick);
+                enemiesFire[i].draw(ctx);
+            }
         }
     }
+    
+    var updatePlayerFire = function (tick)
+    {
+        for(var i = playerFire.length; i--;)
+        {
+            var collide = collider.collideWithViewport(playerFire[i], viewport);
+            if(collide.right)
+            {
+                playerFire.splice(i,1);
+            }
+            else
+            {
+                playerFire[i].update(tick);
+                playerFire[i].draw(ctx);
+            }
+        }
+    }
+
     var drawEnemies = function ()
     {
         for(var i = enemies.length; i--;)
@@ -163,6 +197,7 @@ var GF = function ()
             enemies[i].draw(ctx);
         }
     }
+    
     var start = function()
     {
         viewport.width = w;
@@ -172,6 +207,13 @@ var GF = function ()
         fpsContainer = document.createElement('div');
         document.body.appendChild(fpsContainer);
         
+        init();
+        requestAnimationFrame(mainLoop);
+    };
+
+    var init = function ()
+    {
+        currentGameState = gameStates.gameRunning;
         input = new Input();
         input.init();
         
@@ -179,17 +221,14 @@ var GF = function ()
         timer.init();
         
         collider = new Collider();
+        psx = 20;
+        psy = viewport.height/2;
         
-        player = new Character("player 1", "black");
-        enemies = [
-            new Enemy(viewport.width-20,viewport.height*Math.random(),0.5,1,"green"),
-            new Enemy(viewport.width-20,viewport.height*Math.random(),0.8,3,"red")
-        ];
+        player = new Character("player 1", "black", psx, psy);
+        enemies = [];
         enemiesFire = [];
         playerFire = [];
-        requestAnimationFrame(mainLoop);
-    };
-
+    }
     return {
         start: start
     };

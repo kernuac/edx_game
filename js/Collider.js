@@ -11,11 +11,14 @@ function Collider()
 
 Collider.colliderGroup = function(groupa, groupb)
 {
-    for(var i = groupa.length;i--;)
+    if(groupa && groupb)
     {
-        for(var j = groupb.length; j--;)
+        for(var i = groupa.length;i--;)
         {
-            this.collide(groupa[i-1], groupb[j-1]);
+            for(var j = groupb.length; j--;)
+            {
+                this.collide(groupa[i-1], groupb[j-1]);
+            }
         }
     }
 }
@@ -23,24 +26,32 @@ Collider.colliderGroup = function(groupa, groupb)
 Collider.prototype.collideWithGroup = function (object, group)
 {
     var collide = false;
-    var i = group.length;
-    do
+    var i = group.length || 0;
+    if(object && i > 0)
     {
-        collide = this.collide(object, group[i-1]);
-        i--;
-    }while( i && !collide );
+        do
+        {
+            collide = this.collide(object, group[i-1]);
+            i--;
+        }while( i && !collide );
+    }
     return collide;
 }
 
 Collider.prototype.collide = function(a, b)
 {
     var collide = false;
-    if(((a.x > b.x && a.x < b.x+b.w)
-    || (a.x+a.w > b.x && a.x+a.w < b.x+b.w))
-    && ((a.y > b.y && a.y < b.y+b.h)
-    || (a.y+a.h > b.y && a.y+a.h < b.y+b.h)))
+    var a = a || false;
+    var b = b || false;
+    if(a && b)
     {
-        collide = true;
+        if(((a.x < b.x && a.x + a.w > b.x)
+        ||(a.x < b.x + b.w && a.x + a.w > b.x + b.w))
+        && ((a.y < b.y && a.y + a.h > b.y)
+        ||(a.y < b.y + b.h && a.y + a.h > b.y + b.h)))
+        {
+            collide = true;
+        }
     }
     return collide;
 }

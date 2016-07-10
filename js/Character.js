@@ -1,8 +1,8 @@
-function Character(name, color)
+function Character(name, color, psx, psy)
 {
     this.name = name;
-    this.x = 0;
-    this.y = 0;
+    this.x = psx;
+    this.y = psy;
     this.w = 16;
     this.h = 16;
     this.speed = 1;
@@ -21,8 +21,9 @@ function Character(name, color)
 
 Character.prototype = new Sprite();
 Character.prototype.constructor = Character;
-Character.prototype.update = function (timer, keys, collideViewport)
+Character.prototype.update = function (timer, keys, myfires, collideViewport)
 {
+    
     if(keys.up && !collideViewport.up)
     {
         this.y -= (this.speed*timer/10);
@@ -39,7 +40,19 @@ Character.prototype.update = function (timer, keys, collideViewport)
     {
         this.x += (this.speed*timer/10);
     }
+    if(keys.space)
+    {
+        if(myfires.length < 1)
+        {
+            myfires.push(new Fire(this.x, this.y+this.h/2, this.direction.right));
+        }
+    }
 };
+
+Character.prototype.fire = function()
+{
+    return true;
+}
 
 /*---------------------- Enemy -------------*/
 function Enemy(x, y, speed, life, color)
@@ -77,6 +90,7 @@ Enemy.prototype.setTarget = function(y)
 
 Enemy.prototype.moveToTarget = function(timer)
 {
+
     if(this.distanceR <= this.distance)
     {
         if(this.target - this.y > 0)
@@ -96,19 +110,38 @@ Enemy.prototype.moveToTarget = function(timer)
     }
 }
 
+Enemy.prototype.draw = function (ctx)
+{
+    ctx.save();
+    ctx.beginPath();
+    ctx.fillStyle=this.color;
+    ctx.strokeStyle=this.color;
+    ctx.moveTo(this.x,this.y+this.h/2);
+    ctx.lineTo(this.x+this.w,this.y);
+    ctx.lineTo(this.x+this.w,this.y+this.h);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+}
+
 Enemy.prototype.fire = function ()
 {
     var fire = false;
-    if(Math.random()*100 > 40)
+    if(Math.random()*100 < 3)
     {
         fire = true;
     }
     return fire;
 }
 
-function Fire(dir)
+function Fire(x, y, dir)
 {
-    this.speed = 3;
+    this.speed = 1;
+    this.color = "red";
+    this.x = x;
+    this.y = y;
+    this.w = 8;
+    this.h = 5;
     this.dir = dir;
     this.direction = {
         up: 1,
@@ -131,4 +164,12 @@ Fire.prototype.update = function(timer)
     {
         this.x += this.speed * timer;
     }
+}
+
+Fire.prototype.draw = function (ctx)
+{
+    ctx.save();
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.w, this.h);
+    ctx.restore();
 }
