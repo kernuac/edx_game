@@ -14,3 +14,8 @@ and open the template in the editor.
     src: url('../assets/fonts/LVDCGO__.TTF');
 }
 
+#viewport
+{
+    background-color: black;
+    color: white;
+}

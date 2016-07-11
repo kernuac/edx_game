@@ -75,6 +75,7 @@ var GF = function ()
                 if(player.isAlive)
                 {
                     ctx.save();
+                    ctx.fillStyle="white";
                     ctx.font='8px LVDCGO';
                     ctx.fillText('Lives: '+player.life,20,15);
                     ctx.fillText('Score: '+player.score,250,15)
