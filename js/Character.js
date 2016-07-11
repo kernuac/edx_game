@@ -3,7 +3,7 @@ function Character(name, color, psx, psy)
     this.name = name;
     this.x = psx;
     this.y = psy;
-    this.w = 16;
+    this.w = 48;
     this.h = 16;
     this.speed = 1;
     this.life = 3;
@@ -11,6 +11,8 @@ function Character(name, color, psx, psy)
     this.isLanded = true;
     this.color = "black";
     this.score = 0;
+    this.image = new Image();
+    this.image.src = 'assets/img/airplane.png';
     this.direction = {
         up: 1,
         right: 2,
@@ -59,14 +61,16 @@ function Enemy(x, y, speed, life, color)
 {
     this.x = x;
     this.y = y;
-    this.w = 16;
-    this.h = 16;
+    this.w = 48;
+    this.h = 27;
     this.speed = speed;
     this.color = color;
     this.isInTarget = true;
     this.target = this.y;
     this.distance;
     this.distanceR;
+    this.image = new Image();
+    this.image.src = 'assets/img/enemy.png';
 }
 
 Enemy.prototype = new Sprite();
@@ -110,20 +114,6 @@ Enemy.prototype.moveToTarget = function(timer)
     }
 }
 
-Enemy.prototype.draw = function (ctx)
-{
-    ctx.save();
-    ctx.beginPath();
-    ctx.fillStyle=this.color;
-    ctx.strokeStyle=this.color;
-    ctx.moveTo(this.x,this.y+this.h/2);
-    ctx.lineTo(this.x+this.w,this.y);
-    ctx.lineTo(this.x+this.w,this.y+this.h);
-    ctx.fill();
-    ctx.stroke();
-    ctx.restore();
-}
-
 Enemy.prototype.fire = function ()
 {
     var fire = false;
@@ -140,8 +130,8 @@ function Fire(x, y, dir)
     this.color = "red";
     this.x = x;
     this.y = y;
-    this.w = 8;
-    this.h = 5;
+    this.w = 16;
+    this.h = 11;
     this.dir = dir;
     this.direction = {
         up: 1,
@@ -149,10 +139,23 @@ function Fire(x, y, dir)
         down: 3,
         left: 4
     };
+    this.image = new Image();
+    this.setImage(this.dir);
 }
 
 Fire.prototype = new Sprite();
 Fire.prototype.constructor = Fire;
+Fire.prototype.setImage = function(dir)
+{
+    if(this.dir == this.direction.left)
+    {
+        this.image.src='assets/img/fireleft.png';
+    }
+    else if(this.dir == this.direction.right)
+    {
+        this.image.src='assets/img/fireright.png';
+    }
+}
 
 Fire.prototype.update = function(timer)
 {
@@ -166,10 +169,10 @@ Fire.prototype.update = function(timer)
     }
 }
 
-Fire.prototype.draw = function (ctx)
+/*Fire.prototype.draw = function (ctx)
 {
     ctx.save();
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.w, this.h);
     ctx.restore();
-}
+}*/
