@@ -4,7 +4,7 @@ function Sprite()
     this.y;
     this.w;
     this.h;
-    this.color = "#87eb99";
+    //this.color = "#87eb99";
     this.image;
 }
 
@@ -22,3 +22,4 @@ Sprite.prototype.draw = function (ctx)
     /*}*/
     ctx.restore();
 }
+

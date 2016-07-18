@@ -19,6 +19,7 @@ function Character(name, color, psx, psy)
         down: 3,
         left: 4
     };
+    //this.type = this.types.player;
 }
 
 Character.prototype = new Sprite();
@@ -54,7 +55,7 @@ Character.prototype.update = function (timer, keys, myfires, collideViewport)
 Character.prototype.fire = function()
 {
     return true;
-}
+};
 
 /*---------------------- Enemy -------------*/
 function Enemy(x, y, speed, life, color)
@@ -71,6 +72,7 @@ function Enemy(x, y, speed, life, color)
     this.distanceR;
     this.image = new Image();
     this.image.src = 'assets/img/enemy.png';
+    //this.type = this.types.enemy;
 }
 
 Enemy.prototype = new Sprite();

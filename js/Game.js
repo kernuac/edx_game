@@ -3,8 +3,7 @@ var GF = function ()
     'use strict';
     var frameCount = 0;
     var lastTime;
-    var fpsContainer;
-    var keysContainer;
+    
     var fps;
 
     var viewport = document.querySelector("#viewport");
@@ -35,6 +34,7 @@ var GF = function ()
     var enemies;
     var enemiesFire;
     
+    var mainMenu;
     function clearCanvas()
     {
         ctx.clearRect(0,0,w,h);
@@ -43,8 +43,9 @@ var GF = function ()
     var measureFPS = function(newTime)
     {
         var diffTime;
-        //console.log("hosa");
-        if(lastTime === undefined) {
+        
+        if(lastTime === undefined)
+        {
             lastTime = newTime;
             return;
         };
@@ -58,7 +59,6 @@ var GF = function ()
             lastTime = newTime;
         }
 
-        fpsContainer.innerHTML = 'FPS: ' + fps;
         frameCount++;
     };
 
@@ -74,12 +74,7 @@ var GF = function ()
             case gameStates.gameRunning:
                 if(player.isAlive)
                 {
-                    ctx.save();
-                    ctx.fillStyle="white";
-                    ctx.font='8px LVDCGO';
-                    ctx.fillText('Lives: '+player.life,20,15);
-                    ctx.fillText('Score: '+player.score,250,15)
-                    ctx.restore();
+                    updateHud();
                     updateEnemiesFire(tick);
                     updatePlayerFire(tick);
                     updateEnemies(tick);
@@ -106,7 +101,12 @@ var GF = function ()
                 }
                 break;
             case gameStates.mainMenu:
-                //Not implemented yet
+                var startGame = mainMenu.update(tick, input.keys);
+                if(startGame)
+                {
+                    currentGameState = gameStates.gameRunning;
+                }
+                mainMenu.draw(ctx);
                 break;
                 
             case gameStates.gameOver:
@@ -127,7 +127,7 @@ var GF = function ()
     
     var updateEnemies = function(tick)
     {
-        if(enemies.length>0)
+        if(enemies.length > 0)
         {
             for(var i = enemies.length;i--;)
             {
@@ -149,7 +149,6 @@ var GF = function ()
                     if(enemies[i].fire() && enemiesFire.length < 1)
                     {
                         enemiesFire.push(new Fire(enemies[i].x, enemies[i].y+enemies[i].h/2, 4));
-
                     }
                     enemies[i].update(tick);
                 }
@@ -191,6 +190,16 @@ var GF = function ()
         }
     }
 
+    var updateHud = function()
+    {
+        ctx.save();
+        ctx.fillStyle="white";
+        ctx.font='8px LVDCGO';
+        ctx.fillText('Lives: '+player.life,viewport.x + 20, viewport.y + 15);
+        ctx.fillText('Score: '+player.score,viewport.width - 150, viewport.y+15);
+        ctx.fillText('FPS: ' + fps ,viewport.x + 20, viewport.height - 20);
+        ctx.restore();
+    }
     var drawEnemies = function ()
     {
         for(var i = enemies.length; i--;)
@@ -203,24 +212,21 @@ var GF = function ()
     {
         viewport.width = w;
         viewport.height = h;
-        viewport.style.border = "1px solid black";
-        
-        fpsContainer = document.createElement('div');
-        document.body.appendChild(fpsContainer);
-        
+                
         init();
         requestAnimationFrame(mainLoop);
     };
 
     var init = function ()
     {
-        currentGameState = gameStates.gameRunning;
+        currentGameState = gameStates.mainMenu;
         input = new Input();
         input.init();
         
         timer = new Timer();
         timer.init();
         
+        mainMenu = new MainMenu();
         collider = new Collider();
         psx = 20;
         psy = viewport.height/2;
