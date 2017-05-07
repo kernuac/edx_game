@@ -27,4 +27,4 @@ Mixer.prototype.loadSfx(id, file)
     this.sfx[id] = this.loadFile(file);
 }
 
-Mixer.prototype.
+//Mixer.prototype.

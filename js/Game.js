@@ -81,7 +81,7 @@ var GF = function ()
                     createEnemies(tick);
                     drawEnemies();
                     cwv = collider.collideWithViewport(player, viewport);
-                    player.update(tick, input.keys, playerFire,cwv);
+                    player.update(tick, input.keys, playerFire, cwv);
                     if(collider.collideWithGroup(player,enemies)
                     || collider.collideWithGroup(player,enemiesFire))
                     {
@@ -127,67 +127,47 @@ var GF = function ()
     
     var updateEnemies = function(tick)
     {
-        if(enemies.length > 0)
-        {
-            for(var i = enemies.length;i--;)
-            {
-                var collide = collider.collideWithViewport(enemies[i], viewport);
-
-                var killed = collider.collideWithGroup(enemies[i], playerFire);
-                
-                if(collide.left)
-                {
-                    enemies.splice(i,1);
-                }
-                else if(killed)
-                {
-                    enemies.splice(i, 1);
-                    player.score += 10;
-                }
-                else
-                {
-                    if(enemies[i].fire() && enemiesFire.length < 1)
-                    {
-                        enemiesFire.push(new Fire(enemies[i].x, enemies[i].y+enemies[i].h/2, 4));
-                    }
-                    enemies[i].update(tick);
-                }
+        enemies.map(function (enemy) {
+            var collide = collider.collideWithViewport(enemy, viewport);
+            var killed = collider.collideWithGroup(enemy, playerFire);
+            if(collide.left) {
+                enemies.splice(enemies.indexOf(enemy), 1);
+            } else if (killed) {
+                enemies.splice(enemies.indexOf(enemy), 1);
+                player.score += 10;
+            } else {
+                if(enemy.fire() && enemiesFire.length < 1) {
+                    enemiesFire.push(new Fire(enemy.x, enemy.y+enemy.h/2, 4));
+                } 
+                enemy.update(tick);
             }
-        }
+        });
     }
     
     var updateEnemiesFire = function (tick)
     {
-        for(var i = enemiesFire.length; i--;)
-        {
-            var collide = collider.collideWithViewport(enemiesFire[i], viewport);
-            if(collide.left)
-            {
-                enemiesFire.splice(i, 1);
+        enemiesFire.map(function (fire) {
+            var collide = collider.collideWithViewport(fire, viewport);
+            if(collide.left) {
+                enemiesFire.splice(enemiesFire.indexOf(fire), 1);
+            } else {
+                fire.update(tick);
+                fire.draw(ctx);
             }
-            else
-            {
-                enemiesFire[i].update(tick);
-                enemiesFire[i].draw(ctx);
-            }
-        }
+        });
     }
     
     var updatePlayerFire = function (tick)
     {
-        for(var i = playerFire.length; i--;)
-        {
-            var collide = collider.collideWithViewport(playerFire[i], viewport);
-            if(collide.right)
-            {
-                playerFire.splice(i,1);
+        playerFire.map(function (fire) {
+            var collide = collider.collideWithViewport(fire, viewport);
+            if(collide.right) {
+                playerFire.splice(playerFire.indexOf(fire), 1);
+            } else {
+                fire.update(tick);
+                fire.draw(ctx);
             }
-            else
-            {
-                playerFire[i].update(tick);
-                playerFire[i].draw(ctx);
-            }
-        }
+        });
     }
 
     var updateHud = function()
@@ -202,10 +182,9 @@ var GF = function ()
     }
     var drawEnemies = function ()
     {
-        for(var i = enemies.length; i--;)
-        {
-            enemies[i].draw(ctx);
-        }
+        enemies.map(function (enemy){
+            enemy.draw(ctx);
+        });
     }
     
     var start = function()
