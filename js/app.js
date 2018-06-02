@@ -1,16 +1,15 @@
 'use strict';
 
-var App = (function () 
+var App = (function (Game) 
 {
     var api = {};
     
     api.init = function () {
-        var game = new GF();
-        game.start();
-    }
+        Game.init();
+    };
     
     return api;
-})();
+})(Game);
 
 
 window.addEventListener('DOMContentLoaded',  App.init );

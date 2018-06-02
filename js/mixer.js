@@ -1,4 +1,13 @@
-function Mixer()
+var Mixer = (function () {
+    var api = {};
+    api.init = function () {
+        
+    };
+    
+    return api;
+})();
+
+/*function Mixer()
 {
     this.soundFile = [];
     this.sfx = [];
@@ -27,3 +36,4 @@ Mixer.prototype.loadSfx(id, file)
     this.sfx[id] = this.loadFile(file);
 }
 
+*/

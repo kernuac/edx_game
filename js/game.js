@@ -1,3 +1,24 @@
+var Game = (function (Viewport, Context, Input, Mixer, Timer) {
+   var api = {};
+   
+   api.init = function () {
+       Viewport.init();
+       Context.create(Viewport.viewport, "2d");
+       Input.init();
+       Mixer.init();
+       window.requestAnimationFrame(mainLoop);
+   };
+   
+   var mainLoop = function () {
+       
+   };
+   
+   return api;
+})(Viewport, Context, Input, Mixer, Timer);
+
+
+
+/*
 var GF = function ()
 {
     'use strict';
@@ -219,4 +240,4 @@ var GF = function ()
         start: start
     };
 };
-
+*/
