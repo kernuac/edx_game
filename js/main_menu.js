@@ -3,7 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+var MainMenu = (function (Timer, Context, Input) {
+    var api = {};
+    
+    api.menuItems = [ "start", "options" ];
+    api.title = "Simple Shoot'em up!";
+    api.currentItem = 0;
+    
+    api.update = function () {
+        
+    };
+    
+    api.draw = function () {
+        if( Input.keys.up.pressed ) {
+            
+        } else if ( Input.keys.down.pressed ) {
+            
+        } else if ( Input.keys.fire.pressed ) {
+            
+        }
+        
+    };
+    
+    return api;
+})(Timer, Context, Input);
+/*
 function MainMenu()
 {
     this.items = ["start", "options"];
@@ -73,4 +97,4 @@ MainMenu.prototype.update = function(tick, inputKeys)
         }
     }
     return startGame;
-};
+};*/
