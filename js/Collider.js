@@ -83,3 +83,7 @@ Collider.prototype.collideWithViewport = function (object, viewport)
     
     return collide;
 }
+
+var Collider = (function () {
+    
+})();

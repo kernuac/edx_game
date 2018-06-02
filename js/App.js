@@ -1,6 +1,16 @@
-window.addEventListener('DOMContentLoaded',  function ()
+'use strict';
+
+var App = (function () 
 {
-    'use strict';
-    var game = new GF();
-    game.start();
-});
+    var api = {};
+    
+    api.init = function () {
+        var game = new GF();
+        game.start();
+    }
+    
+    return api;
+})();
+
+
+window.addEventListener('DOMContentLoaded',  App.init );

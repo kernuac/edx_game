@@ -1,20 +1,21 @@
-function Timer()
-{
-    this.now;
-    this.last;
-}
+var Timer = ( function () {
+    var api = {};
 
-Timer.prototype.init = function ()
-{
-    this.now = performance.now();
-    this.last = this.now;
-}
+    api.now = 0;
+    api.last = 0;
 
-Timer.prototype.dtime = function ()
-{
-    var dt = 0;
-    this.now = performance.now();
-    dt = this.now - this.last;
-    this.last = this.now;
-    return dt;
-}
+    api.init = function () {
+        api.now = performance.now();
+        api.last = api.now;
+    }
+
+    api.dtime = function () {
+        var dt = 0;
+        api.now = performance.now();
+        dt = api.now - api.last;
+        api.last = api.now;
+        return dt;
+    }
+
+    return api;
+})();
