@@ -61,3 +61,12 @@ Input.prototype.init = function ()
         };
     });
 };
+
+var Input = (function () {
+	var api = {};
+	
+	api.init = function () {
+		
+	}
+	return api;
+})();
