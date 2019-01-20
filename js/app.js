@@ -1,10 +1,12 @@
 'use strict';
+import { Game } from "./game.js";
 
 var App = (function (Game) 
 {
     var api = {};
     
     api.init = function () {
+        console.log("initializing Game...");
         Game.init();
     };
     

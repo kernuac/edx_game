@@ -7,6 +7,7 @@ var Mixer = (function () {
     return api;
 })();
 
+export { Mixer };
 /*function Mixer()
 {
     this.soundFile = [];

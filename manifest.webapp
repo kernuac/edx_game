@@ -1,0 +1,17 @@
+{
+    "version": "0.0.0",
+    "name" : "EDX Game Project",
+    "description": "Just a game",
+    "launch_path" : "/index.html",
+    "short_name" : "EDX Game",
+    "start_url": "./?utm_source=web_app_manifest",
+    "display" : "standalone",
+    "icons"   : {
+        "48"  : "assets/img/icons/homescreen48.png",
+        "128" : "assets/img/icons/homescreen48.png"
+    },
+    "developer": {
+        "name" : "Cristhian Vega Cortes",
+        "url"  : "http://www.code-mode.cl"    
+    }
+}

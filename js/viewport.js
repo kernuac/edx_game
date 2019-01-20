@@ -14,13 +14,24 @@ var Viewport = (function ()
     api.viewport.y = 0;
     
     api.init = function () {
+        console.log("intializing viewport...");
         api.viewport = document.querySelector('#viewport');
         if( ! api.viewport ) {
             console.log('No viewport Found');
             return false;
         }
+        
     };
+    
+    api.setViewPortSize = function ( width, height ) {
+        console.log("setting viewpoert size");
+        api.viewport.style.width = width+'px';
+        api.viewport.style.height = height+'px';
+        api.viewport.style.margin = "0 auto";
+        api.viewport.style.display = "block";
+    }
     
     return api;
 })();
 
+export { Viewport };

@@ -1,22 +1,31 @@
+import { Viewport } from "./viewport.js";
+import { Context } from "./context.js";
+import { Input } from "./input.js";
+import { Mixer } from "./mixer.js";
+import { Timer } from "./timer.js";
+import { Player } from "./player.js";    
 var Game = (function (Viewport, Context, Input, Mixer, Timer) {
    var api = {};
    
    api.init = function () {
-       Viewport.init();
-       Context.create(Viewport.viewport, "2d");
-       Input.init();
-       Mixer.init();
-       window.requestAnimationFrame(mainLoop);
+        Viewport.init();
+        Viewport.setViewPortSize(320, 240);
+        Context.create(Viewport.viewport, "2d");
+        Player.init();
+        Input.init();
+        Mixer.init();
+        window.requestAnimationFrame(mainLoop);
    };
    
    var mainLoop = function () {
-       
+        Input.update();
+        Player.update();
    };
    
    return api;
 })(Viewport, Context, Input, Mixer, Timer);
 
-
+export { Game };
 
 /*
 var GF = function ()

@@ -20,3 +20,5 @@ var Context = (function ()
     
     return api;
 })();
+
+export { Context }
