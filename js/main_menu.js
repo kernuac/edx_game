@@ -27,6 +27,8 @@ var MainMenu = (function (Timer, Context, Input) {
     
     return api;
 })(Timer, Context, Input);
+
+export { MainMenu };
 /*
 function MainMenu()
 {

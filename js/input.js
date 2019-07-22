@@ -46,3 +46,5 @@ var Input = (function () {
         
 	return api;
 })();
+
+export { Input };
