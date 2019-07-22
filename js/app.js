@@ -1,5 +1,7 @@
 'use strict';
 
+import "/js/game.js"
+
 var App = (function (Game) 
 {
     var api = {};

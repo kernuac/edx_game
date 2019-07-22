@@ -19,28 +19,29 @@ var Input = (function () {
             api.keys.home.value = home;
         };
         
-        var setKeyDown = function (ev) {
+        var __setKeyDown = function (ev) {
             var key = ev.keyCode;
             __setKeyState(key, true);
         };
         
-        var setKeyUp = function (ev) {
+        var __setKeyUp = function (ev) {
             var key = ev.keyCode;
             __setKeyState(key, false)
         };
         
         var __setKeyState = function (key, state) {
-            api.keys.map(function (k) {
-                if(k.value === key) {
-                    k.pressed = state;
+            Object.keys(api.keys).forEach(function (k) {
+                if(api.keys[k] === key) {
+                    api.keys[k].pressed = state;
                 }
             });
         };
         
 	api.init = function () {
+            // we must create a function for loading user preferences
             api.setKeys(38, 40, 37, 39, 32, 27);
-            document.addEventListener('keydown', setKeyDown);
-            document.addEventListener('keyup', setKeyUp);
+            document.addEventListener('keydown', __setKeyDown);
+            document.addEventListener('keyup', __setKeyUp);
 	};
         
 	return api;

@@ -1,19 +1,25 @@
 var Game = (function (Viewport, Context, Input, Mixer, Timer) {
-   var api = {};
+    var api = {};
    
-   api.init = function () {
-       Viewport.init();
-       Context.create(Viewport.viewport, "2d");
-       Input.init();
-       Mixer.init();
-       window.requestAnimationFrame(mainLoop);
-   };
+    api.init = function () {
+        Viewport.init();
+        Context.create( Viewport.viewport, "2d" );
+        Input.init();
+        Mixer.init();
+        createWindows();
+        
+        window.requestAnimationFrame( mainLoop );
+    };
    
-   var mainLoop = function () {
+    var mainLoop = function () {
        
-   };
-   
-   return api;
+    };
+
+    var createWindows = function () {
+            
+    };   
+    return api;
+
 })(Viewport, Context, Input, Mixer, Timer);
 
 
