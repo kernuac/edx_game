@@ -64,20 +64,18 @@ Collider.prototype.collideWithViewport = function (object, viewport)
         up: false,
         down: false
     }
-    if(object.x <= viewport.x)
-    {
+
+    if(object.x <= viewport.x) {
         collide.left = true;
     }
-    if(object.x+object.w >= viewport.width)
-    {
+
+    if(object.x+object.w >= viewport.width) {
         collide.right = true;
     }
-    if(object.y <= viewport.y)
-    {
+    if(object.y <= viewport.y) {
         collide.up = true;
     }
-    if(object.y+object.h >= viewport.height)
-    {
+    if(object.y+object.h >= viewport.height) {
         collide.down = true;
     }
     

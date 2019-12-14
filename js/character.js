@@ -1,5 +1,4 @@
-function Character(name, color, psx, psy)
-{
+function Character(name, color, psx, psy) {
     this.name = name;
     this.x = psx;
     this.y = psy;
@@ -24,29 +23,22 @@ function Character(name, color, psx, psy)
 
 Character.prototype = new Sprite();
 Character.prototype.constructor = Character;
-Character.prototype.update = function (timer, keys, myfires, collideViewport)
-{
+Character.prototype.update = function (timer, keys, myfires, collideViewport) {
     
-    if(keys.up && !collideViewport.up)
-    {
+    if(keys.up && !collideViewport.up) {
         this.y -= (this.speed*timer/10);
     }
-    if(keys.down && !collideViewport.down)
-    {
+    if(keys.down && !collideViewport.down) {
         this.y += (this.speed*timer/10);
     }
-    if(keys.left && !collideViewport.left)
-    {
+    if(keys.left && !collideViewport.left) {
         this.x -= (this.speed*timer/10);
     }
-    if(keys.right && !collideViewport.right)
-    {
+    if(keys.right && !collideViewport.right) {
         this.x += (this.speed*timer/10);
     }
-    if(keys.space)
-    {
-        if(myfires.length < 1)
-        {
+    if(keys.space) {
+        if(myfires.length < 1) {
             myfires.push(new Fire(this.x, this.y+this.h/2, this.direction.right));
         }
     }
@@ -170,11 +162,3 @@ Fire.prototype.update = function(timer)
         this.x += this.speed * timer;
     }
 }
-
-/*Fire.prototype.draw = function (ctx)
-{
-    ctx.save();
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.w, this.h);
-    ctx.restore();
-}*/

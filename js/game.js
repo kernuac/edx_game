@@ -3,23 +3,30 @@ import { Context } from "./context.js";
 import { Input } from "./input.js";
 import { Mixer } from "./mixer.js";
 import { Timer } from "./timer.js";
-import { Player } from "./player.js";    
+import { Player } from "./player.js";
+
+
 var Game = (function (Viewport, Context, Input, Mixer, Timer) {
     var api = {};
    
    api.init = function () {
         Viewport.init();
-        Viewport.setViewPortSize(320, 240);
-        Context.create(Viewport.viewport, "2d");
+        Viewport.setViewPortSize( 320, 240 );
+        Context.create( Viewport.viewport, "2d" );
         Player.init();
         Input.init();
         Mixer.init();
-        window.requestAnimationFrame(mainLoop);
+        Timer.init();
+        window.requestAnimationFrame( mainLoop );
    };
    
    var mainLoop = function () {
-        Input.update();
-        Player.update();
+        var dtime = Timer.dtime();
+        var keys = Input.update();
+        Context.clear( Viewport.viewport );
+        Player.update( keys, dtime );
+        Player.draw( Context.ctx );
+        window.requestAnimationFrame( mainLoop );
    };
    
    return api;

@@ -18,6 +18,7 @@ var Timer = ( function () {
     };
 
     return api;
+    
 })();
 
 export { Timer };

@@ -9,6 +9,10 @@
     src: url('../assets/fonts/LVDCGO__.TTF');
 }
 
+html, body {
+    background-color: black;
+}
+
 #viewport
 {
     background-color: black;

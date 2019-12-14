@@ -10,11 +10,7 @@ var MainMenu = (function (Timer, Context, Input) {
     api.title = "Simple Shoot'em up!";
     api.currentItem = 0;
     
-    api.update = function () {
-        
-    };
-    
-    api.draw = function () {
+    api.update = function ( keys ) {
         if( Input.keys.up.pressed ) {
             
         } else if ( Input.keys.down.pressed ) {
@@ -22,6 +18,10 @@ var MainMenu = (function (Timer, Context, Input) {
         } else if ( Input.keys.fire.pressed ) {
             
         }
+    };
+    
+    api.draw = function () {
+        
         
     };
     

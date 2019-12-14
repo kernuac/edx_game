@@ -30,13 +30,20 @@ var Input = (function () {
         };
         
         var __setKeyState = function (key, state) {
-            Object.keys(api.keys).forEach(function (k) {
-                if(api.keys[k] === key) {
-                    api.keys[k].pressed = state;
+            
+            var keylist = Object.keys( api.keys );
+
+            for ( var k in keylist ) {
+                if( api.keys[keylist[k]].value === key ) {
+                    api.keys[keylist[k]].pressed = state;
                 }
-            });
+            };
         };
-        
+    
+    api.update = function () {
+        return api.keys;
+    }
+    
 	api.init = function () {
             // we must create a function for loading user preferences
             api.setKeys(38, 40, 37, 39, 32, 27);

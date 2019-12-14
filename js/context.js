@@ -18,6 +18,10 @@ var Context = (function ()
         api.ctx = viewport.getContext(context);
     };
     
+    api.clear = function ( viewport ) {
+        api.ctx.clearRect(0, 0, viewport.width, viewport.height);
+    };
+
     return api;
 })();
 
