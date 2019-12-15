@@ -1,5 +1,4 @@
-function Sprite()
-{
+function Sprite() {
     this.x;
     this.y;
     this.w;
@@ -10,9 +9,9 @@ function Sprite()
         
     }
 
-    this.draw = function ( ctx ) {
+    this.draw = function ( ctx, tileset, sx, sy, sw, sh, dx, dy, dw, dh ) {
         ctx.save();
-        ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
+        ctx.drawImage(tileset.tileset, this.x, this.y, this.w, this.h);
         ctx.restore();    
     }
 }

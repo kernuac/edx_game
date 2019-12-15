@@ -25,8 +25,8 @@ var Viewport = (function ()
     
     api.setViewPortSize = function ( width, height ) {
         console.log("setting viewpoert size");
-        api.viewport.style.width = width+'px';
-        api.viewport.style.height = height+'px';
+        api.viewport.width = width;
+        api.viewport.height = height;
         api.viewport.style.margin = "0 auto";
         api.viewport.style.display = "block";
     }

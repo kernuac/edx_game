@@ -19,9 +19,9 @@ var Player = ( function () {
         api.character.image = new Image();
         api.character.x = 0;
         api.character.y = 0;
-        api.character.w = 48;
+        api.character.w = 16;
         api.character.h = 16;
-        api.character.image.src = 'assets/img/airplane.png';    
+        api.character.image.src = 'assets/img/airplane2.png';    
     }
     
     api.update = function ( keys, dtime ) {
@@ -42,8 +42,8 @@ var Player = ( function () {
         }
     }
 
-    api.draw = function ( ctx ) {
-        api.character.draw( ctx );
+    api.draw = function ( ctx, tileset ) {
+        api.character.draw( ctx, tileset );
     }
     
     return api;

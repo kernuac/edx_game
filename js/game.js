@@ -4,6 +4,7 @@ import { Input } from "./input.js";
 import { Mixer } from "./mixer.js";
 import { Timer } from "./timer.js";
 import { Player } from "./player.js";
+import { Tileset } from "./tileset.js";
 
 
 var Game = (function (Viewport, Context, Input, Mixer, Timer) {
@@ -13,6 +14,7 @@ var Game = (function (Viewport, Context, Input, Mixer, Timer) {
         Viewport.init();
         Viewport.setViewPortSize( 320, 240 );
         Context.create( Viewport.viewport, "2d" );
+        Tileset.load('assets/img/tilesets/tileset.png');
         Player.init();
         Input.init();
         Mixer.init();
@@ -25,7 +27,7 @@ var Game = (function (Viewport, Context, Input, Mixer, Timer) {
         var keys = Input.update();
         Context.clear( Viewport.viewport );
         Player.update( keys, dtime );
-        Player.draw( Context.ctx );
+        Player.draw( Context.ctx, Tileset );
         window.requestAnimationFrame( mainLoop );
    };
    
