@@ -21,10 +21,8 @@ var Tileset = ( function () {
         }
     }
 
-    api.draw_tile = function ( ctx, tile_position, dest ) {
-        ctx.save();
-        ctx.drawImage( self.__tiles, sx, sy, sw, sh, x, y, w, h );
-        ctx.restore();
+    api.get_tiles = function () {
+        return __tiles;
     }
 
     return api;

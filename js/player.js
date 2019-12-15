@@ -3,8 +3,10 @@ import { Sprite } from './sprite.js';
 var Player = ( function () {
     var api = {};
     var score = 0;
-    api.character = null;
- 
+    api.sprite = null;
+    api.posx = 0;
+    api.posy = 0;
+
     api.updateScore = function ( points ) {
         score += points;
     }
@@ -15,37 +17,29 @@ var Player = ( function () {
     
     api.init = function () {
         console.log( "initializing sprite" );
-        api.character = new Sprite();
-        api.character.image = new Image();
-        api.character.x = 0;
-        api.character.y = 0;
-        api.character.w = 16;
-        api.character.h = 16;
-        api.character.image.src = 'assets/img/airplane2.png';    
+        api.sprite = new Sprite();
+        api.sprite.set_size(2, 2);
+        api.sprite.set_indexes( [1,2,3,4] );  
     }
     
     api.update = function ( keys, dtime ) {
         if( keys.up.pressed ) {
-            api.character.y -= 1 * dtime / 10;
+            api.posy -= 1 * dtime / 10;
         }
 
         if( keys.down.pressed ) {
-            api.character.y += 1 * dtime / 10;
+            api.posy += 1 * dtime / 10;
         }
         
         if( keys.left.pressed ) {
-            api.character.x -= 1 * dtime / 10;
+            api.posx -= 1 * dtime / 10;
         }
 
         if( keys.right.pressed ) {
-            api.character.x += 1 * dtime / 10;
+            api.posx += 1 * dtime / 10;
         }
     }
 
-    api.draw = function ( ctx, tileset ) {
-        api.character.draw( ctx, tileset );
-    }
-    
     return api;
 })();
 

@@ -1,19 +1,21 @@
 function Sprite() {
-    this.x;
-    this.y;
-    this.w;
-    this.h;
-    this.image;
-    
+    var __width = 1;
+    var __height = 1;
+    var __indexes = [];
+
     this.update = function ( timer ) {
         
     }
 
-    this.draw = function ( ctx, tileset, sx, sy, sw, sh, dx, dy, dw, dh ) {
-        ctx.save();
-        ctx.drawImage(tileset.tileset, this.x, this.y, this.w, this.h);
-        ctx.restore();    
+    this.set_indexes = function ( indexes ) {
+        __indexes = indexes;
     }
+
+    this.set_size = function ( width, height ) {
+        __width = width;
+        __height = height;
+    }
+
 }
 
 export { Sprite };
